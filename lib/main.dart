@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:examen_leonardo_macias/icon.dart';
 import 'package:examen_leonardo_macias/menu.dart';
 import 'package:flutter/services.dart';
+import 'package:examen_leonardo_macias/page_alert.dart';
+import 'package:examen_leonardo_macias/page_avatar.dart';
+import 'package:examen_leonardo_macias/page_card.dart';
 
 void main() => runApp(MyApp());
 
@@ -25,7 +28,7 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext letra) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Proyecto Departamental"),
+        title: Text("Practica Navigation"),
       ),
       body: _listas(letra),
     );
@@ -52,37 +55,23 @@ class MyHomePage extends StatelessWidget {
         leading: getIcon(opt['icon']),
         trailing: Icon(Icons.keyboard_arrow_right_outlined),
         onTap: () {
-          showDialog(
-            context: letra,
-            builder: (BuildContext letra) =>
-                _imprimirdialogo(letra, opt['texto']),
-          );
+          if (opt['ruta'] == 'alert') {
+            final route = MaterialPageRoute(builder: (context) => AlertPage());
+            Navigator.push(letra, route);
+          } else if (opt['ruta'] == 'avatar') {
+            final route = MaterialPageRoute(builder: (context) => AvatarPage());
+            Navigator.push(letra, route);
+          } else if (opt['ruta'] == 'card') {
+            final route = MaterialPageRoute(builder: (context) => CardsPage());
+            Navigator.push(letra, route);
+          } else {
+            // _buildPopUpDialog(context, opt['texto']),
+          }
         },
       );
       opciones..add(widgetTemp)..add(Divider());
     });
     return opciones;
   }
-
-  Widget _imprimirdialogo(BuildContext letra, String opt) {
-    return new AlertDialog(
-      title: const Text('click '),
-      content: new Column(
-        mainAxisSize: MainAxisSize.max,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text('opcion:' + opt),
-        ],
-      ),
-      actions: <Widget>[
-        new FlatButton(
-          onPressed: () {
-            Navigator.of(letra).pop();
-          },
-          textColor: Theme.of(letra).primaryColorDark,
-          child: const Text('close'),
-        ),
-      ],
-    );
-  }
 }
+       
